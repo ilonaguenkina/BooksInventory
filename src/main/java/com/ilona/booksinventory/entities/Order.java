@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="order")
+@Table(name="book_order")
 public class Order {
 	@Id
 	@Column(name = "order_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long orderId;
+	private int orderId;
 	
 	@Column(name = "book_name")
 	private String bookName;
@@ -24,11 +24,11 @@ public class Order {
 	@Column(name = "status")
 	private int status;
 
-	public long getOrderId() {
+	public int getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(long orderId) {
+	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
 
