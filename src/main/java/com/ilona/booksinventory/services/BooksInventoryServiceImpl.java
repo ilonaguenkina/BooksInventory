@@ -28,9 +28,9 @@ public class BooksInventoryServiceImpl implements BooksInventoryService {
 
 	@Transactional
 	public int addBook(Book book) {
-		Optional<Book> existingBook = booksRepository.findById(book.getName());
-		if (existingBook.isPresent()) {
-			book.setQuantity(book.getQuantity() + existingBook.get().getQuantity());
+		Book existingBook = booksRepository.findByIdForUpdate(book.getName());
+		if (existingBook != null) {
+			book.setQuantity(book.getQuantity() + existingBook.getQuantity());
 		}
 		booksRepository.save(book);
 		return book.getQuantity();
@@ -42,8 +42,7 @@ public class BooksInventoryServiceImpl implements BooksInventoryService {
 	
 	@Transactional
 	public int orderBook(Order order) {
-		Optional<Book> existingBook = booksRepository.findById(order.getBookName());
-		Book book = existingBook.isPresent() ? existingBook.get() : null;
+		Book book = booksRepository.findByIdForUpdate(order.getBookName());
 		if (book == null || book.getQuantity() < order.getQuantity()) {
 			order.setStatus(0);
 		} else {
